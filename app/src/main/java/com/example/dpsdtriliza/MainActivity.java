@@ -2,11 +2,17 @@ package com.example.dpsdtriliza;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import static android.R.color.primary_text_dark;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -100,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (field[i][0].equals(field[i][1])
                 && field[i][0].equals(field[i][2])
                     && !field[i][0].equals("")) {
+                buttons[i][0].setTextColor(Color.RED);
+                buttons[i][1].setTextColor(Color.RED);
+                buttons[i][2].setTextColor(Color.RED);
                 return true;
             }
         }
@@ -109,6 +118,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (field[0][i].equals(field[1][i])
                     && field[0][i].equals(field[2][i])
                     && !field[0][i].equals("")) {
+                buttons[0][i].setTextColor(Color.RED);
+                buttons[1][i].setTextColor(Color.RED);
+                buttons[2][i].setTextColor(Color.RED);
                 return true;
             }
         }
@@ -117,6 +129,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (field[0][0].equals(field[1][1])
                 && field[0][0].equals(field[2][2])
                 && !field[0][0].equals("")) {
+            buttons[0][0].setTextColor(Color.RED);
+            buttons[1][1].setTextColor(Color.RED);
+            buttons[2][2].setTextColor(Color.RED);
             return true;
         }
 
@@ -124,6 +139,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (field[0][2].equals(field[1][1])
                 && field[0][2].equals(field[2][0])
                 && !field[0][2].equals("")) {
+            buttons[0][2].setTextColor(Color.RED);
+            buttons[1][1].setTextColor(Color.RED);
+            buttons[2][0].setTextColor(Color.RED);
             return true;
         }
 
@@ -133,9 +151,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void player1Wins() {
 
         player1Points++;
-        Toast.makeText(this, "Κέρδισε ο παίκτης 1 !!!", Toast.LENGTH_SHORT).show();
-        updatePointsText();
-        resetBoard();
+
+        //Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρφισε ο παίκτης 1 !!!", 5000);
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο παίκτης 1 !!!", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePointsText();
+                resetBoard();
+                Toast.makeText(MainActivity.this, "Παίξτε ξανά...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        snackbar.show();
+        //Toast.makeText(this, "Κέρδισε ο παίκτης 1 !!!", Toast.LENGTH_SHORT).show();
+        //updatePointsText();
+        //resetBoard();
     }
 
     private void player2Wins() {
@@ -162,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for (int i=0; i<3; i++) {
             for (int j = 0; j < 3; j++) {
                buttons[i][j].setText("");
+               buttons[i][j].setTextColor(Color.BLACK);
             }
         }
 
