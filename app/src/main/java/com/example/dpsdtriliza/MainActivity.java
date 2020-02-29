@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer1 = findViewById(R.id.text_view_player1);
         textViewPlayer2 = findViewById(R.id.text_view_player2);
 
+        colorPlayers();
+
         for (int i=0; i<3; i++) {
 
             for (int j=0; j<3; j++) {
@@ -54,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                resetGame();
             }
         });
     }
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!((Button) v).getText().toString().equals("")) {
             return;
         }
+
 
         if (player1Turn) {
             ((Button) v).setText("X");
@@ -88,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             player1Turn = !player1Turn;
         }
 
+        // at the end of 'round', color player appropriately
+        colorPlayers();
     }
 
     private boolean checkForWin() {
@@ -196,7 +201,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+        // na to dw kai meta - prepei na paizoun enallax
         roundCount = 0;
         player1Turn = true;
+
+    }
+
+    private void colorPlayers() {
+        if (player1Turn) {
+            textViewPlayer1.setTextColor(Color.GREEN);
+            textViewPlayer2.setTextColor(Color.BLACK);
+        }
+        else {
+            textViewPlayer1.setTextColor(Color.BLACK);
+            textViewPlayer2.setTextColor(Color.GREEN);
+        }
+    }
+
+    private void resetGame() {
+        player1Points = 0;
+        player2Points = 0;
+        updatePointsText();
+        resetBoard();
+        colorPlayers();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putInt("roundCount", roundCount);
+        outState.putInt("player1Points", player1Points);
+        outState.putInt("player2Points", player2Points);
+        outState.putBoolean("player1Turn", player1Turn);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        roundCount = savedInstanceState.getInt("roundCount");
+        player1Points = savedInstanceState.getInt("player1Points");
+        player2Points = savedInstanceState.getInt("player2Points");
+        player1Turn = savedInstanceState.getBoolean("player1Turn");
     }
 }
