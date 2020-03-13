@@ -1,13 +1,20 @@
 package com.example.dpsdtriliza;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -31,10 +38,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textViewPlayer2;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Todo - check 4.30 onwards, from here: https://www.youtube.com/watch?v=oh4YOj9VkVE
+        // to actually do something with the different options in toolbar.
+
+        //ActionBar actionBar = getSupportActionBar();
+        //actionBar.setTitle(getResources().getString(R.string.app_name));
+
+        // this information is kept in build.gradle file.
+        //actionBar.setSubtitle("ver. "+getResources().getString(R.string.app_version));
+
+        // old code
+        //String title = getResources().getString(R.string.app_name);
+        //setTitle(title + "    --    ver. "+getResources().getString(R.string.app_version));
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        //toolbar.getOverflowIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        toolbar.setSubtitle("ver. "+getResources().getString(R.string.app_version));
+        setSupportActionBar(toolbar);
+
 
         textViewPlayer1 = findViewById(R.id.text_view_player1);
         textViewPlayer2 = findViewById(R.id.text_view_player2);
@@ -59,6 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 resetGame();
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+        return true;
+        //return super.onCreateOptionsMenu(menu);
     }
 
     @Override

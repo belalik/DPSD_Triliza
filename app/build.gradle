@@ -2,18 +2,37 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 28
+
+    def versionMajor = 1
+    def versionMinor = 1
+
+
     defaultConfig {
         applicationId "com.example.dpsdtriliza"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+
+        versionCode versionMajor * 1000
+        + versionMinor * 100
+        versionName "${versionMajor}.${versionMinor}"
+
+
+        // versionCode 1
+        //versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "app_version", "${defaultConfig.versionName}"
+        }
+
+        debug {
+            //versionNameSuffix ".debug"
+            resValue "string", "app_version", "${defaultConfig.versionName}"
+            //      "string", "app_version", "${defaultConfig.versionName}${versionNameSuffix}"
+
         }
     }
 }
