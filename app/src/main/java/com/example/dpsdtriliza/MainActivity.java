@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Build;
@@ -116,8 +117,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (checkForWin()) {
             if (player1Turn) {
                 player1Wins();
+                changeActivity(1, v);
             }
             else {
+                changeActivity(2, v);
                 player2Wins();
             }
         } else if (roundCount == 9) {
@@ -191,9 +194,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void player1Wins() {
 
         player1Points++;
+        updatePointsText();
+        resetBoard();
 
-        //Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρφισε ο παίκτης 1 !!!", 5000);
+        /*
         Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο παίκτης 1 !!!", Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Παίξτε ξανά...", Toast.LENGTH_SHORT).show();
+            }
+        });
+        snackbar.show();
+        */
+
+    }
+
+    private void player2Wins() {
+
+        player2Points++;
+
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο παίκτης 2 !!!", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,17 +224,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         snackbar.show();
-        //Toast.makeText(this, "Κέρδισε ο παίκτης 1 !!!", Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(this, "Κέρδισε ο παίκτης 2 !!!", Toast.LENGTH_SHORT).show();
         //updatePointsText();
         //resetBoard();
-    }
-
-    private void player2Wins() {
-
-        player2Points++;
-        Toast.makeText(this, "Κέρδισε ο παίκτης 2 !!!", Toast.LENGTH_SHORT).show();
-        updatePointsText();
-        resetBoard();
     }
 
     private void draw() {
@@ -279,5 +293,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Points = savedInstanceState.getInt("player1Points");
         player2Points = savedInstanceState.getInt("player2Points");
         player1Turn = savedInstanceState.getBoolean("player1Turn");
+    }
+
+
+    public void changeActivity(int player, View view) {
+        Intent intent = new Intent(this, BlankActivity.class);
+        String key = "whoWon";
+
+        intent.putExtra(key, player);
+
+        startActivity(intent);
     }
 }
