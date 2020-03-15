@@ -23,9 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:freezesText="true"
-            android:text="ΠΑΙΚΤΗΣ 1: 0"
-            android:textSize="32sp"
-        />
+            android:textSize="32sp" />
 
         <TextView
             android:id="@+id/text_view_player2"
@@ -33,9 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_player1"
             android:freezesText="true"
-            android:text="ΠΑΙΚΤΗΣ 2: 0"
-            android:textSize="32sp"
-        />
+            android:textSize="32sp" />
 
         <Button
             android:id="@+id/button_reset"

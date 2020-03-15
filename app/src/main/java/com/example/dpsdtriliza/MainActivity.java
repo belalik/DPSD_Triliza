@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private TextView textViewPlayer2;
 
+    String player1Name;
+    String player2Name;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -66,6 +68,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         textViewPlayer1 = findViewById(R.id.text_view_player1);
         textViewPlayer2 = findViewById(R.id.text_view_player2);
+
+        Intent intent = getIntent();
+        Bundle extras = getIntent().getExtras();
+        player1Name = extras.getString("PLAYER1NAME");
+        player2Name = extras.getString("PLAYER2NAME");
+
+        textViewPlayer1.setText(player1Name+": 0");
+        textViewPlayer2.setText(player2Name+": 0");
 
         colorPlayers();
 
@@ -116,11 +126,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (checkForWin()) {
             if (player1Turn) {
+
                 player1Wins();
-                changeActivity(1, v);
+                //changeActivity(1, v);
             }
             else {
-                changeActivity(2, v);
+                //changeActivity(2, v);
+
                 player2Wins();
             }
         } else if (roundCount == 9) {
@@ -194,19 +206,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void player1Wins() {
 
         player1Points++;
-        updatePointsText();
-        resetBoard();
 
-        /*
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο παίκτης 1 !!!", Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο "+player1Name+" !!!", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updatePointsText();
+                resetBoard();
                 Toast.makeText(MainActivity.this, "Παίξτε ξανά...", Toast.LENGTH_SHORT).show();
             }
         });
         snackbar.show();
-        */
+
 
     }
 
@@ -214,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         player2Points++;
 
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο παίκτης 2 !!!", Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(findViewById(R.id.rootLayout), "Κέρδισε ο "+player2Name+" !!!", Snackbar.LENGTH_INDEFINITE);
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,8 +248,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void updatePointsText() {
-        textViewPlayer1.setText("Παίκτης 1: "+player1Points);
-        textViewPlayer2.setText("Παίκτης 2: "+player2Points);
+        textViewPlayer1.setText(player1Name+": "+player1Points);
+        textViewPlayer2.setText(player2Name+": "+player2Points);
     }
 
     private void resetBoard() {
