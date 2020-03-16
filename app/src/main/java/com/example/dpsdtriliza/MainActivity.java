@@ -138,10 +138,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (roundCount == 9) {
             draw();
         } else {
-            player1Turn = !player1Turn;
+            //player1Turn = !player1Turn;
         }
 
         // at the end of 'round', color player appropriately
+        player1Turn = !player1Turn;
         colorPlayers();
     }
 
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 updatePointsText();
-                resetBoard();
+                resetBoard(false);
                 Toast.makeText(MainActivity.this, "Παίξτε ξανά...", Toast.LENGTH_SHORT).show();
             }
         });
@@ -221,6 +222,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /**
+     * player 2 wins:
+     *   update player 2 points, print snackbar and:
+     *      call {@link #updatePointsText()}, call {@link #resetBoard(boolean)}
+     */
     private void player2Wins() {
 
         player2Points++;
@@ -230,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 updatePointsText();
-                resetBoard();
+                resetBoard(false);
                 Toast.makeText(MainActivity.this, "Παίξτε ξανά...", Toast.LENGTH_SHORT).show();
             }
         });
@@ -241,9 +247,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //resetBoard();
     }
 
+    /**
+     * if the game is a draw, simply write a toast and reset the board
+     */
     private void draw() {
         Toast.makeText(this, "Ισοπαλία !!!", Toast.LENGTH_SHORT).show();
-        resetBoard();
+        resetBoard(false);
     }
 
 
@@ -252,7 +261,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textViewPlayer2.setText(player2Name+": "+player2Points);
     }
 
-    private void resetBoard() {
+    /**
+     * method to reset board - used at the end of every round (hence param in false)
+     * or in the case of a new game when param is true.
+     * @param newGame should be true only in the case of a new game starting, after clicking
+     *                'reset' button, upon which playerTurn is initialised to true, so that
+     *                player one will play first.
+     */
+    private void resetBoard(boolean newGame) {
 
         for (int i=0; i<3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -263,7 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // na to dw kai meta - prepei na paizoun enallax
         roundCount = 0;
-        player1Turn = true;
+        if (newGame)
+            player1Turn = true;
 
     }
 
@@ -282,7 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Points = 0;
         player2Points = 0;
         updatePointsText();
-        resetBoard();
+        resetBoard(true);
         colorPlayers();
     }
 
@@ -304,9 +321,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         player1Points = savedInstanceState.getInt("player1Points");
         player2Points = savedInstanceState.getInt("player2Points");
         player1Turn = savedInstanceState.getBoolean("player1Turn");
+
     }
 
 
+    /**
+     * Not used at the time being - tried to use it in order to call {@link BlankActivity BlankActivity.class}
+     * @param player
+     * @param view
+     */
     public void changeActivity(int player, View view) {
         Intent intent = new Intent(this, BlankActivity.class);
         String key = "whoWon";

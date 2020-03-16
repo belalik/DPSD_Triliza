@@ -9,7 +9,7 @@ android {
     // Made new activity as startup activity to collect players names
     // need to figure out correct way to alternate colors on beginning players.
     def versionMajor = 1
-    def versionMinor = 3
+    def versionMinor = 4
 
 
     defaultConfig {
