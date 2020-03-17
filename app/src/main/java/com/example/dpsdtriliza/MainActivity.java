@@ -141,7 +141,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //player1Turn = !player1Turn;
         }
 
-        // at the end of 'round', color player appropriately
+        /**
+         * at the end of round, color player appropriately - also takes care of draw.
+         */
         player1Turn = !player1Turn;
         colorPlayers();
     }
@@ -279,8 +281,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // na to dw kai meta - prepei na paizoun enallax
         roundCount = 0;
-        if (newGame)
+
+        /**
+         * Considering that a draw is after 9 moves without a winner, whoever played last
+         * also played first (9 moves in total).  Hence the other player should now play first.
+         */
+//        if (afterDraw) {
+//            player1Turn = !player1Turn;
+//        }
+        /**
+         * If we start a new game after reset, then player 1 plays first by definition.
+         */
+        if (newGame) {
             player1Turn = true;
+        }
+
 
     }
 
